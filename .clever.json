@@ -1,0 +1,11 @@
+{
+  "apps": [
+    {
+      "app_id": "app_60f36ac8-02d4-4719-9f18-cc9e4eccfa5d",
+      "org_id": "orga_e0cf0a62-3a41-4345-ae97-1f304b2cb35a",
+      "deploy_url": "https://github.com/Juju-archy/furmeet.git",
+      "name": "furmeet",
+      "alias": "furmeet"
+    }
+  ]
+}
