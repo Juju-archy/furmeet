@@ -4,21 +4,7 @@
     Register User API
 */
 
-$config = require 'config.php';
-
-// Accédez aux configurations de la base de données
-$servername = $config['database']['servername'];
-$username = $config['database']['username'];
-$password = $config['database']['password'];
-$dbname = $config['database']['dbname'];
-
-// Création de la connexion à la base de données
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Vérifiez la connexion à la base de données
-if ($conn->connect_error) {
-    die("Erreur de connexion à la base de données : " . $conn->connect_error);
-}
+require_once("config.php");
 
 // Vérifiez la méthode de la requête HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
