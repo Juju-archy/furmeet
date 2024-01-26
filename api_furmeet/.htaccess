@@ -1,5 +1,5 @@
 <Files "*.php">  
-    Require all denied
+    Require all granted
 </Files>
 <Files "index.php">  
     Require all granted
