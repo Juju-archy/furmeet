@@ -5,6 +5,7 @@
 */
 
 require_once("config.php");
+require_once("hash_crypto.php"); 
 
 // Vérifiez la méthode de la requête HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -49,8 +50,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($count == 0) {
         // E-mail unique, vous pouvez insérer le nouvel utilisateur
+
+        // Generate a random salt
+        $salt = generateSalt();
+
+        // Hash the password with the generated salt
+        $hashedPassword = hashPasswordWithSalt($data['UPASS'], $salt);
+
         $stmt = $conn->prepare("INSERT INTO user (uemail, upseudo, uabout, ubirthday, ucity, ugender, imageProfil, UPASS, SALT, isdarkmode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param('sssssssssi', $data['uemail'], $data['upseudo'], $data['uabout'], $data['ubirthday'], $data['ucity'], $data['ugender'], $data['imageProfil'], $data['UPASS'], $data['SALT'], $data['isdarkmode']);
+        $stmt->bind_param('sssssssssi', $data['uemail'], $data['upseudo'], $data['uabout'], $data['ubirthday'], $data['ucity'], $data['ugender'], $data['imageProfil'], $hashedPassword, $salt, $data['isdarkmode']);
 
         if ($stmt->execute()) {
             // Répondez avec un statut 200 (OK)
