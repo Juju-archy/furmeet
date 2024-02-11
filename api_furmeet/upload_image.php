@@ -1,4 +1,7 @@
 <?php
+/**
+ * Depreciated API : Cellar S3 from Clever Cloud is now used
+ */
 
 $config = require 'config.php';
 
