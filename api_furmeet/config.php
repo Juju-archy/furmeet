@@ -15,6 +15,7 @@ try {
         PDO::ATTR_TIMEOUT => 10, // in seconds
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ));
+    print($db);
 } catch (PDOException $e) {
     die('Erreur : '.$e->getMessage());
 }
