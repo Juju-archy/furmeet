@@ -11,7 +11,7 @@ require_once("hash_crypto.php");
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Vérifiez si un e-mail existe déjà
     $email = $_GET['email'];
-    $checkEmail = $conn->prepare("SELECT COUNT(*) as count FROM user WHERE uemail = ?");
+    $checkEmail = $db->prepare("SELECT COUNT(*) as count FROM user WHERE uemail = ?"); 
     $checkEmail->bind_param('s', $email);
     $checkEmail->execute();
     $result = $checkEmail->get_result();
@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     // Vérifier l'unicité de l'e-mail
     $email = $data['uemail'];
-    $checkEmail = $conn->prepare("SELECT COUNT(*) as count FROM user WHERE uemail = ?");
+    $checkEmail = $db->prepare("SELECT COUNT(*) as count FROM user WHERE uemail = ?");
     $checkEmail->bind_param('s', $email);
     $checkEmail->execute();
     $result = $checkEmail->get_result();
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // Hash the password with the generated salt
         $hashedPassword = hashPasswordWithSalt($data['UPASS'], $salt);
 
-        $stmt = $conn->prepare("INSERT INTO user (uemail, upseudo, uabout, ubirthday, ucity, ugender, imageProfil, UPASS, SALT, isdarkmode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("INSERT INTO user (uemail, upseudo, uabout, ubirthday, ucity, ugender, imageProfil, UPASS, SALT, isdarkmode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param('sssssssssi', $data['uemail'], $data['upseudo'], $data['uabout'], $data['ubirthday'], $data['ucity'], $data['ugender'], $data['imageProfil'], $hashedPassword, $salt, $data['isdarkmode']);
 
         if ($stmt->execute()) {
@@ -83,4 +83,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 // Fermer la connexion à la base de données
-$conn->close();
+$db->close();
