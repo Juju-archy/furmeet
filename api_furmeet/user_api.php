@@ -91,4 +91,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 // Fermer la connexion à la base de données
-$db->closeCursor();
+$db->close();
