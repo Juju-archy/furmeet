@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echo json_encode(['error' => 'Erreur lors de l\'exécution de la requête SQL']);
         }
 
-        $stmt->close();
+        $stmt->closeCursor();
     } else {
         // E-mail déjà utilisé, renvoyez un statut 409 (Conflit)
         http_response_code(409);
@@ -91,4 +91,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 // Fermer la connexion à la base de données
-$db->close();
+$db->closeCursor();
