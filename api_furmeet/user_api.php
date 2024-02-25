@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $checkEmail->execute();
     $result = $checkEmail->fetch(PDO::FETCH_ASSOC);
     $count = $result['count'];
-    $checkEmail->close();
+    $checkEmail->closeCursor();
 
     // Répondre avec l'information d'unicité
     header('Content-Type: application/json');
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $checkEmail->execute();
     $result = $checkEmail->fetch(PDO::FETCH_ASSOC);
     $count = $result['count'];
-    $checkEmail->close();
+    $checkEmail->closeCursor();
 
     // Répondre avec l'information d'unicité
     header('Content-Type: application/json');
