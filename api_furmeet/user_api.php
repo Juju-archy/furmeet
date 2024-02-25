@@ -88,6 +88,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     http_response_code(405);
     echo json_encode(['message' => 'Méthode non autorisée']);
 }
-
-// Fermer la connexion à la base de données
-$db->close();
