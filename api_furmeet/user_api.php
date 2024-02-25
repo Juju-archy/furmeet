@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($count == 0) {
         // E-mail unique, vous pouvez insérer le nouvel utilisateur
-
         // Generate a random salt
         $salt = generateSalt();
 
