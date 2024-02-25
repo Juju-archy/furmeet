@@ -9,14 +9,13 @@ require_once("hash_crypto.php");
 
 // Vérifiez la méthode de la requête HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Vérifiez si un e-mail existe déjà
-    $email = $_GET['email'];
-    $checkEmail = $db->prepare("SELECT COUNT(*) as count FROM user WHERE uemail = ?"); 
-    $checkEmail->bind_param('s', $email);
+    // Vérifier l'unicité de l'e-mail
+    $email = $data['uemail'];
+    $checkEmail = $db->prepare("SELECT COUNT(*) as count FROM user WHERE uemail = :email");
+    $checkEmail->bindParam(':email', $email, PDO::PARAM_STR);
     $checkEmail->execute();
-    $result = $checkEmail->get_result();
-    $row = $result->fetch_assoc();
-    $count = $row['count'];
+    $result = $checkEmail->fetch(PDO::FETCH_ASSOC);
+    $count = $result['count'];
     $checkEmail->close();
 
     // Répondre avec l'information d'unicité
@@ -37,12 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     // Vérifier l'unicité de l'e-mail
     $email = $data['uemail'];
-    $checkEmail = $db->prepare("SELECT COUNT(*) as count FROM user WHERE uemail = ?");
-    $checkEmail->bind_param('s', $email);
+    $checkEmail = $db->prepare("SELECT COUNT(*) as count FROM user WHERE uemail = :email");
+    $checkEmail->bindParam(':email', $email, PDO::PARAM_STR);
     $checkEmail->execute();
-    $result = $checkEmail->get_result();
-    $row = $result->fetch_assoc();
-    $count = $row['count'];
+    $result = $checkEmail->fetch(PDO::FETCH_ASSOC);
+    $count = $result['count'];
     $checkEmail->close();
 
     // Répondre avec l'information d'unicité
@@ -57,8 +55,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // Hash the password with the generated salt
         $hashedPassword = hashPasswordWithSalt($data['UPASS'], $salt);
 
-        $stmt = $db->prepare("INSERT INTO user (uemail, upseudo, uabout, ubirthday, ucity, ugender, imageProfil, UPASS, SALT, isdarkmode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param('sssssssssi', $data['uemail'], $data['upseudo'], $data['uabout'], $data['ubirthday'], $data['ucity'], $data['ugender'], $data['imageProfil'], $hashedPassword, $salt, $data['isdarkmode']);
+        $stmt = $db->prepare("INSERT INTO user (uemail, upseudo, uabout, ubirthday, ucity, ugender, imageProfil, UPASS, SALT, isdarkmode) VALUES (:uemail, :upseudo, :uabout, :ubirthday, :ucity, :ugender, :imageProfil, :UPASS, :salt, :isdarkmode)");
+
+        $stmt->bindParam(':uemail', $data['uemail'], PDO::PARAM_STR);
+        $stmt->bindParam(':upseudo', $data['upseudo'], PDO::PARAM_STR);
+        $stmt->bindParam(':uabout', $data['uabout'], PDO::PARAM_STR);
+        $stmt->bindParam(':ubirthday', $data['ubirthday'], PDO::PARAM_STR);
+        $stmt->bindParam(':ucity', $data['ucity'], PDO::PARAM_STR);
+        $stmt->bindParam(':ugender', $data['ugender'], PDO::PARAM_STR);
+        $stmt->bindParam(':imageProfil', $data['imageProfil'], PDO::PARAM_STR);
+        $stmt->bindParam(':UPASS', $hashedPassword, PDO::PARAM_STR);
+        $stmt->bindParam(':salt', $salt, PDO::PARAM_STR);
+        $stmt->bindParam(':isdarkmode', $data['isdarkmode'], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             // Répondez avec un statut 200 (OK)
