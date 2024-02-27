@@ -1,20 +1,22 @@
 <?php
 /**
- * Depreciated API : Cellar S3 from Clever Cloud is now used
+ * Deprecated API: Cellar S3 from Clever Cloud is now used
  */
 
-$config = require 'config.php';
+require_once("config.php");
+require_once("hash_crypto.php");
+require_once("vendor/autoload.php");
 
-// Accédez aux configurations de la base de données
+use Aws\S3\S3Client;
+use Aws\S3\Exception\S3Exception;
+
 $servername = $config['database']['servername'];
 $username = $config['database']['username'];
 $password = $config['database']['password'];
 $dbname = $config['database']['dbname'];
 
-// Connexion à la base de données
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Vérifier la connexion à la base de données
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -24,25 +26,35 @@ try {
     $uemail = $_POST['uemail'];
     $imageName = $_POST['imageName'];
 
-    // Emplacement où vous souhaitez enregistrer les images sur le serveur
-    $uploadPath = $_SERVER['DOCUMENT_ROOT'] . "/assets/images/userProfiles/";
-    
-    // Créer un répertoire s'il n'existe pas
-    if (!file_exists($uploadPath)) {
-        mkdir($uploadPath, 0777, true);
-    }
+    // Configuration du client S3
+    $s3 = new S3Client([
+        'version' => 'latest',
+        //'region' => 'par', // region paris
+        'credentials' => [
+            'key'    => $config['cellar']['key_id'],
+            'secret' => $config['cellar']['key_secret'],
+        ],
+        'endpoint' => $config['cellar']['host'],
+    ]);
 
-    // Déplacer l'image téléchargée vers le répertoire spécifié
+    // Télécharger l'image vers Cellar
     $imageFile = $_FILES['imageFile']['tmp_name'];
-    $targetPath = $uploadPath . $imageName;
-    move_uploaded_file($imageFile, $targetPath);
+    $bucketName = 'profile';
+    $objectKey = 'userProfile_' . $imageName;
+
+    $result = $s3->putObject([
+        'Bucket' => $bucketName,
+        'Key'    => $objectKey,
+        'SourceFile' => $imageFile,
+        'ACL'    => 'public-read', // Modifiez selon les besoins de confidentialité
+    ]);
 
     // Enregistrez les informations de l'image dans la base de données
-    $stmt = $conn->prepare("INSERT INTO UserProfileImage (uemail, imageName, targetPath) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO UserProfileImage (uemail, imageName, objectKey) VALUES (?, ?, ?)");
     if ($stmt->error) {
         die('Erreur SQL : ' . $stmt->error);
     }
-    $stmt->bind_param('sss', $uemail, $imageName, $targetPath);
+    $stmt->bind_param('sss', $uemail, $imageName, $objectKey);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
@@ -58,10 +70,13 @@ try {
     // Fermer la connexion à la base de données
     $stmt->close();
     $conn->close();
+} catch (S3Exception $e) {
+    // Gérer les erreurs S3
+    $response = array("success" => false, "message" => "Erreur S3 lors de l'enregistrement de l'image: " . $e->getMessage());
+    echo json_encode($response);
 } catch (Exception $e) {
-    // Gérer les erreurs locales
-    $response = array("success" => false, "message" => "Erreur locale lors de l'enregistrement de l'image");
+    // Gérer les autres erreurs
+    $response = array("success" => false, "message" => "Erreur locale lors de l'enregistrement de l'image: " . $e->getMessage());
     echo json_encode($response);
 }
-
 ?>
