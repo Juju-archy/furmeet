@@ -68,5 +68,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 http_response_code(400);
 echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
 exit();
-
-?>

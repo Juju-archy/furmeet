@@ -79,4 +79,3 @@ try {
     $response = array("success" => false, "message" => "Erreur locale lors de l'enregistrement de l'image: " . $e->getMessage());
     echo json_encode($response);
 }
-?>
