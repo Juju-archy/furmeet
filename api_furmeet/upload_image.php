@@ -1,7 +1,4 @@
 <?php
-/**
- * Deprecated API: Cellar S3 from Clever Cloud is now used
- */
 
 require_once("config.php");
 require_once("hash_crypto.php");
@@ -29,7 +26,7 @@ try {
     // Configuration du client S3
     $s3 = new S3Client([
         'version' => 'latest',
-        //'region' => 'par', // region paris
+        'region' => 'eu-west-1', // Assurez-vous que la région correspond à celle de votre Cellar
         'credentials' => [
             'key'    => $config['cellar']['key_id'],
             'secret' => $config['cellar']['key_secret'],
@@ -42,10 +39,12 @@ try {
     $bucketName = 'profile';
     $objectKey = 'userProfile_' . $imageName;
 
+    print('Nom de mon fichier :'.$objectKey);
+
     $result = $s3->putObject([
         'Bucket' => $bucketName,
         'Key'    => $objectKey,
-        'SourceFile' => $imageFile,
+        'Body'   => fopen($imageFile, 'rb'),
         'ACL'    => 'public-read', // Modifiez selon les besoins de confidentialité
     ]);
 
