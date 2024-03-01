@@ -13,13 +13,13 @@ $bucketName = '<CELLAR_BUCKET>'; // Remplacez par le nom de votre bucket
 // Configuration du client S3 pour RGW de Ceph
 $s3 = new S3Client([
     'version' => 'latest',
-    'region'  => 'par', // Remplacez par votre région
+    'region'  => 'US', // Remplacez par votre région
     'credentials' => [
         'key'    => $accessKey,
         'secret' => $secretKey,
     ],
     'endpoint' => getenv("CELLAR_ADDON_HOST"), // Remplacez par l'URL de votre RGW
-    'use_path_style_endpoint' => true, // Activez le mode de style de chemin
+    //'use_path_style_endpoint' => true, // Activez le mode de style de chemin
 ]);
 
 // Récupération des données de la requête
