@@ -13,7 +13,7 @@ $bucketName = 'profile';
 // Configuration du client S3 pour RGW de Ceph
 $s3 = new S3Client([
     'version' => 'latest',
-    'region'  => 'us-east-1', // Remplacez par votre région
+    'region'  => 'par', // Remplacez par votre région
     'credentials' => [
         'key'    => $accessKey,
         'secret' => $secretKey,
