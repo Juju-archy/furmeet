@@ -26,7 +26,7 @@ try {
     // Configuration du client S3
     $s3 = new S3Client([
         'version' => 'latest',
-        'region' => 'eu-west-1', // Assurez-vous que la région correspond à celle de votre Cellar
+        'region' => 'par', // Assurez-vous que la région correspond à celle de votre Cellar
         'credentials' => [
             'key'    => $config['cellar']['key_id'],
             'secret' => $config['cellar']['key_secret'],
