@@ -8,12 +8,12 @@ use Aws\Exception\AwsException;
 // Remplacez ces valeurs par vos propres informations
 $accessKey = getenv("CELLAR_ADDON_KEY_ID");
 $secretKey = getenv("CELLAR_ADDON_KEY_SECRET");
-$bucketName = '<CELLAR_BUCKET>'; // Remplacez par le nom de votre bucket
+$bucketName = 'profile'; // Remplacez par le nom de votre bucket
 
 // Configuration du client S3 pour RGW de Ceph
 $s3 = new S3Client([
     'version' => 'latest',
-    'region'  => 'US', // Remplacez par votre région
+    'region'  => 'US', 
     'credentials' => [
         'key'    => $accessKey,
         'secret' => $secretKey,
