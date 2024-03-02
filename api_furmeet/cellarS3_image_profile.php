@@ -31,7 +31,7 @@ try {
     $result = $s3->putObject([
         'Bucket' => $bucketName,
         'Key'    => $imageName,
-        'Body'   => $imageData,
+        //'Body'   => $imageData,
         'ACL'    => 'public-read', // Rend l'objet accessible au public, ajustez selon vos besoins
     ]);
 
