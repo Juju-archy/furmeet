@@ -23,8 +23,8 @@ $s3 = new S3Client([
 ]);
 
 // Récupération des données de la requête
-$imageName = $_POST['imageName']; // Assurez-vous de valider et de sécuriser les données reçues
-$imageData = file_get_contents($_FILES['image']['tmp_name']);
+$imageName = $_POST['imageName']; 
+//$imageData = file_get_contents($_FILES['image']['tmp_name']);
 
 // Enregistrement de l'image dans S3 de Ceph
 try {
