@@ -18,7 +18,7 @@ $s3 = new S3Client([
         'key'    => $accessKey,
         'secret' => $secretKey,
     ],
-    'endpoint' => getenv("CELLAR_ADDON_HOST"), // Remplacez par l'URL de votre RGW
+    'endpoint' => 'https://' . getenv("CELLAR_ADDON_HOST"),
     //'use_path_style_endpoint' => true, // Activez le mode de style de chemin
 ]);
 
