@@ -27,6 +27,13 @@ if (empty($email)) {
     $response['success'] = false;
     $response['message'] = "Email is required.";
     echo json_encode($response);
+
+
+    if ($response['success'] === false) {
+        // Log des erreurs
+        error_log('Erreur lors de l\'authentification de l\'utilisateur : ' . json_encode($response));
+    }
+    
     exit();
 }
 

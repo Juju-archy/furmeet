@@ -4,7 +4,8 @@
     Display User profil
 */
 
-$config = require 'config.php';
+require_once("config.php");
+require_once("hash_crypto.php"); 
 
 // Accédez aux configurations de la base de données
 $servername = $config['database']['servername'];
