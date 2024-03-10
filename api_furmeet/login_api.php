@@ -32,6 +32,10 @@ try {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
+        // Fermer la requête et la connexion à la base de données
+        $db = null;
+        $stmt = null;
+
         $response['success'] = true;
         $response['user'] = [
             'upseudo' => $user['upseudo'],
