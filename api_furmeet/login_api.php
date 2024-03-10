@@ -41,7 +41,7 @@ try {
             'imageProfil' => $user['imageProfil'],
             'ucity' => $user['ucity'],
             'ugender' => $user['ugender'],
-            'SALT' => user['SALT'],
+            'SALT' => $user['SALT'],
             'UPASS' => $user['UPASS'],
             'isdarkmode' => (int)$user['isdarkmode']
         ];
