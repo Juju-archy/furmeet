@@ -36,19 +36,19 @@ try {
         $response['SALT'] = $user['SALT']; // Envoyer le sel à Flutter
         $response['UPASS'] = $user['UPASS']; // Envoyer le mot de passe haché à Flutter
 
-        echo json_encode($response);
     } else {
         $response['success'] = false;
         $response['message'] = "Invalid email.";
     }
 
-    echo json_encode($response);
 } catch (PDOException $e) {
     // Gérer les erreurs de la base de données
     $response['success'] = false;
     $response['message'] = "Database error: " . $e->getMessage();
-    echo json_encode($response);
 }
 
 // Fermer la connexion à la base de données
 $db = null;
+
+// Envoyer la réponse JSON une seule fois à la fin
+echo json_encode($response);
