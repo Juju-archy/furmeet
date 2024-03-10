@@ -33,8 +33,17 @@ try {
 
     if ($user) {
         $response['success'] = true;
-        $response['SALT'] = $user['SALT']; // Envoyer le sel à Flutter
-        $response['UPASS'] = $user['UPASS']; // Envoyer le mot de passe haché à Flutter
+        $response['user'] = [
+            'upseudo' => $user['upseudo'],
+            'uemail' => $user['uemail'],
+            'uabout' => $user['uabout'],
+            'ubirthday' => $user['ubirthday'],
+            'imageProfil' => $user['imageProfil'],
+            'ucity' => $user['ucity'],
+            'ugender' => $user['ugender'],
+            'UPASS' => $user['UPASS'],
+            'isdarkmode' => (int)$user['isdarkmode']
+        ];
 
     } else {
         $response['success'] = false;
