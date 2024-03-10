@@ -38,7 +38,7 @@ try {
         $db = null;
 
         // Ajouter l'URL de l'image à la réponse
-        $user['imageUrl'] = $user['imageProfil'] ? 'https://' . getenv("CELLAR_ADDON_HOST") . '/profile/' . $user['imageProfil'] : null;
+        //$user['imageUrl'] = $user['imageProfil'] ? 'https://' . getenv("CELLAR_ADDON_HOST") . '/profile/' . $user['imageProfil'] : null;
 
         // Retourner les données de l'utilisateur au format JSON
         header('Content-Type: application/json');

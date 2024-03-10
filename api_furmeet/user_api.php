@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $stmt->bindParam(':ubirthday', $data['ubirthday'], PDO::PARAM_STR);
         $stmt->bindParam(':ucity', $data['ucity'], PDO::PARAM_STR);
         $stmt->bindParam(':ugender', $data['ugender'], PDO::PARAM_STR);
-        $stmt->bindParam(':imageProfil', $data['imageProfil'], PDO::PARAM_STR);
+        $stmt->bindParam(':imageProfil', $user['imageProfil'] ? 'https://' . getenv("CELLAR_ADDON_HOST") . '/profile/' . $user['imageProfil'] : null, PDO::PARAM_STR);
         $stmt->bindParam(':UPASS', $hashedPassword, PDO::PARAM_STR);
         $stmt->bindParam(':salt', $salt, PDO::PARAM_STR);
         $stmt->bindParam(':isdarkmode', $data['isdarkmode'], PDO::PARAM_INT);
