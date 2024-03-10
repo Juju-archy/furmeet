@@ -19,19 +19,19 @@ $s3 = new S3Client([
         'secret' => $secretKey,
     ],
     'endpoint' => 'https://' . getenv("CELLAR_ADDON_HOST"),
-    //'use_path_style_endpoint' => true, // Activez le mode de style de chemin
+    'use_path_style_endpoint' => true, // Activez le mode de style de chemin
 ]);
 
 // Récupération des données de la requête
 $imageName = $_POST['imageName']; 
-//$imageData = file_get_contents($_FILES['image']['tmp_name']);
+$imageData = file_get_contents($_FILES['imageFile']['tmp_name']);
 
 // Enregistrement de l'image dans S3 de Ceph
 try {
     $result = $s3->putObject([
         'Bucket' => $bucketName,
         'Key'    => $imageName,
-        //'Body'   => $imageData,
+        'Body'   => $imageData,
         'ACL'    => 'public-read', // Rend l'objet accessible au public, ajustez selon vos besoins
     ]);
 
