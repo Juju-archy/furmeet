@@ -27,6 +27,7 @@ if (isset($_GET['uemail'])) {
     exit();
 }
 
+
 // Vérifiez la méthode de la requête HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     // Récupérez les données du corps de la requête
