@@ -8,7 +8,20 @@ require_once("config.php");
 require_once("hash_crypto.php");
 
 // Vérifie que les champs sont présents dans la requête GET
-//$email = $_GET['uemail'];
+$email = $_GET['uemail'];
+
+if (empty($email)) {
+    $response['success'] = false;
+    $response['message'] = "Connection error.";
+    echo json_encode($response);
+
+    if ($response['success'] === false) {
+        // Log des erreurs
+        error_log('Erreur lors de l\'authentification de l\'utilisateur : ' . json_encode($response));
+    }
+
+    exit();
+}
 
 // Vérifiez la méthode de la requête HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
