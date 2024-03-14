@@ -10,7 +10,8 @@ require_once("hash_crypto.php");
 // Vérifie que les champs sont présents dans la requête GET
 if (isset($_GET['uemail'])) {
     $email = $_GET['uemail'];
-    echo json_encode('email user updated :'.$email);
+    $response['message'] = "l'email est ".$email;
+    echo json_encode($response);
 
     if (empty($email)) {
         // Si 'uemail' est vide, renvoyer une réponse d'erreur
