@@ -8,7 +8,7 @@ require_once("config.php");
 require_once("hash_crypto.php");
 
 // Vérifie que les champs sont présents dans la requête GET
-$email = $_GET['uemail'];
+//$email = $_GET['uemail'];
 
 // Vérifiez la méthode de la requête HTTP
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
