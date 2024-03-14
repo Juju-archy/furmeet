@@ -8,18 +8,21 @@ require_once("config.php");
 require_once("hash_crypto.php");
 
 // Vérifie que les champs sont présents dans la requête GET
-$email = $_GET['uemail'];
+if (isset($_GET['uemail'])) {
+    $email = $_GET['uemail'];
 
-if (empty($email)) {
-    $response['success'] = false;
-    $response['message'] = "Connection error.";
-    echo json_encode($response);
-
-    if ($response['success'] === false) {
-        // Log des erreurs
-        error_log('Erreur lors de l\'authentification de l\'utilisateur : ' . json_encode($response));
+    if (empty($email)) {
+        // Si 'uemail' est vide, renvoyer une réponse d'erreur
+        $response['success'] = false;
+        $response['message'] = "L'adresse e-mail est vide.";
+        echo json_encode($response);
+        exit();
     }
-
+} else {
+    // Si 'uemail' n'est pas défini, renvoyer une réponse d'erreur
+    $response['success'] = false;
+    $response['message'] = "L'adresse e-mail n'est pas définie.";
+    echo json_encode($response);
     exit();
 }
 
